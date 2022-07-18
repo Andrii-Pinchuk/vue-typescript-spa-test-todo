@@ -71,6 +71,7 @@ import TodoListMock from "@/common/todoList/TodoListMock";
 import { TodoListInterface } from "@/common/todoList/TodoListInterface";
 import { TodoInterface } from "@/common/todoList/TodoInterface";
 import Todo from "@/common/todoList/Todo";
+import { Pages } from "@/router/Pages";
 
 @Component
 export default class TodoView extends Vue {
@@ -84,7 +85,17 @@ export default class TodoView extends Vue {
   private hasEmptyInput = false;
 
   protected beforeMount() {
+    this.checkAuthorization();
     this.findAuthorizedUserTodoList();
+  }
+
+  private checkAuthorization() {
+    const isUserAuthorized = localStorage.getItem("isUserAuthorized");
+    if (!isUserAuthorized) {
+      this.$router.push({
+        path: Pages.LOGIN
+      });
+    }
   }
 
   private findAuthorizedUserTodoList() {
