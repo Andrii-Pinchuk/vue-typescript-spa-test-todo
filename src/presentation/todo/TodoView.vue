@@ -1,7 +1,7 @@
 <template>
   <div class="todo-page">
     <div class="todo-page__background"></div>
-    <img src="../../assets/images/logos/big_logo.svg"
+    <img src="../../assets/images/logos/logo.svg"
          alt="Citi company logo" class="todo-page__logo">
     <section class="todo-list">
       <h1 class="todo-list__main-title">Thank you {{ authorizedUserName }}!</h1>
@@ -9,8 +9,8 @@
       <div class="todo-list__add-todo">
         <input type="text" class="todo-list__add-todo-input" maxlength="40" v-model="newTodoName"
                :class="{'todo-list__add-todo-input_error': hasEmptyInput}"
-               v-on:keyup.enter="addNewTodo" v-on:focus="endEditingSelectedTodo"
-               v-on:keydown="clearInputError">
+               placeholder="Enter todo name" v-on:keydown="clearInputError"
+               v-on:keyup.enter="addNewTodo" v-on:focus="endEditingSelectedTodo">
         <button v-on:click="addNewTodo" class="todo-list__add-todo-btn">
           <img src="../../assets/images/buttons_icons/add_new_todo.svg" alt="Add new todo">
         </button>
@@ -75,12 +75,15 @@ import { Pages } from "@/router/Pages";
 
 @Component
 export default class TodoView extends Vue {
-  private authorizedUserName = localStorage.getItem("userName");
   private allTodoLists = new TodoListMock();
+
+  private authorizedUserName = localStorage.getItem("userName");
   private authorizedUserTodoList: TodoListInterface | undefined;
   private newTodoName = "";
+
   private selectedTodo: TodoInterface | null = null;
   private isEditingSelectedTodo = false;
+
   private changingStatusTodo: TodoInterface | null = null;
   private hasEmptyInput = false;
 
