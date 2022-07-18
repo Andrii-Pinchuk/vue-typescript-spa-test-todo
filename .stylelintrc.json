@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-sass-guidelines"
+  ],
+  "ignoreFiles": ["src/styles/styles.css"],
+  "rules": {
+    "max-nesting-depth": null,
+    "order/properties-alphabetical-order": null,
+    "declaration-empty-line-before": null,
+    "selector-max-id": null,
+    "selector-class-pattern": null,
+    "no-descending-specificity": null
+  }
+}
