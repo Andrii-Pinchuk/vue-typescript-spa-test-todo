@@ -30,7 +30,10 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import 'assets/styles/login-form';
-@import 'assets/styles/todo-page';
 @import 'assets/styles/common';
+@import 'assets/styles/login-page';
+@import 'assets/styles/login-form';
+@import 'assets/styles/logo-block';
+@import 'assets/styles/todo-page';
+@import 'assets/styles/todo-list';
 </style>

@@ -1,12 +1,24 @@
 <template>
-  <div>
-    <form class="login-form" v-on:submit="validateCredential($event)">
-      <label for="login">Login</label>
-      <input type="text" id="login" v-model="login">
-      <label for="password">Password</label>
-      <input type="password" id="password" v-model="password">
-      <button>Login</button>
-    </form>
+  <div class="login-page">
+    <header class="page-header"></header>
+    <div class="logo-block">
+      <img src="../../assets/images/logos/logo.svg" alt="Citi company logo" width="103" height="66"
+           class="logo-block__logo">
+    </div>
+    <main>
+      <div class="login-page__main-title-container">
+        <h1 class="login-page__main-title">Welcome to Business Analytics Online</h1>
+      </div>
+      <form class="login-form" v-on:submit="validateCredential($event)">
+        <label for="login">Login</label>
+        <input type="text" id="login" v-model="login">
+        <label for="password">Password</label>
+        <input type="password" id="password" v-model="password">
+        <button>Login</button>
+      </form>
+    </main>
+    <footer>
+    </footer>
   </div>
 </template>
 
