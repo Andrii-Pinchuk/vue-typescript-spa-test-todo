@@ -1,47 +1,67 @@
 <template>
-  <div>
-    <h3>Thank you {{ authorizedUserName }}!</h3>
-    <p>Todo list</p>
-    <input type="text" v-model="newTodoName" v-on:keyup.enter="addNewTodo"
-           v-on:focus="endEditingSelectedTodo">
-    <button v-on:click="addNewTodo">
-      <img src="../../assets/images/add_new_todo.svg" alt="Add new todo">
-    </button>
-    <div class="todo-list">
-      <div tabindex="0" class="todo-list__todo"
-           v-for="todo in authorizedUserTodoList.todos" v-bind:key="todo.id"
-           v-on:keyup.delete.self="deleteSelectedTodo(todo)">
-        <div style="position: relative;">
-          <button v-show="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
-                  v-on:click="changeTodoStatus(todo)">
-            <img src="../../assets/images/todo_unfinished.svg" alt="Todo unfinished"
-                 v-show="todo.status=== 'unfinished'">
-            <img src="../../assets/images/todo_finished.svg" alt="Todo finished"
-                 v-show="todo.status=== 'finished'">
-          </button>
-          <span v-if="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
-                v-on:dblclick="startEditingSelectedTodo(todo)">
-          {{ todo.name }}
-        </span>
-          <input type="text" v-model="todo.name" ref="editInput"
-                 v-show="isEditingSelectedTodo && selectedTodo === todo"
-                 v-on:focus="selectEditInputText" v-on:keyup.enter="endEditingSelectedTodo"
-                 v-on:keyup.esc="endEditingSelectedTodo">
-
-          <button v-show="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
-                  v-on:click="startEditingSelectedTodo(todo)">
-            <img src="../../assets/images/start_editing_todo.svg" alt="Start todo editing">
-          </button>
-          <button v-show="isEditingSelectedTodo && selectedTodo === todo"
-                  v-on:click="endEditingSelectedTodo">
-            <img src="../../assets/images/finish_editing_todo.svg" alt="Finish todo editing">
-          </button>
-          <button v-on:click="deleteSelectedTodo(todo)">
-            <img src="../../assets/images/delete_todo.svg" alt="Delete todo">
-          </button>
+  <div class="todo-page">
+    <div class="todo-page__background"></div>
+    <img src="../../assets/images/logos/big_logo.svg"
+         alt="Citi company logo" class="todo-page__logo">
+    <section class="todo-list">
+      <h1 class="todo-list__main-title">Thank you {{ authorizedUserName }}!</h1>
+      <h2 class="todo-list__name">Todo list</h2>
+      <div class="todo-list__add-todo">
+        <input type="text" class="todo-list__add-todo-input" maxlength="40" v-model="newTodoName"
+               :class="{'todo-list__add-todo-input_error': hasEmptyInput}"
+               v-on:keyup.enter="addNewTodo" v-on:focus="endEditingSelectedTodo"
+               v-on:keydown="clearInputError">
+        <button v-on:click="addNewTodo" class="todo-list__add-todo-btn">
+          <img src="../../assets/images/buttons_icons/add_new_todo.svg" alt="Add new todo">
+        </button>
+        <div class="todo-list__add-todo-error-information" v-show="hasEmptyInput">
+          <img src="../../assets/images/errors/input_error.svg" alt="Input error">
+          <span>Enter todo name</span>
         </div>
       </div>
-    </div>
+      <div class="todo-list__todos">
+        <div tabindex="0" class="todo-list__todo"
+             v-for="todo in authorizedUserTodoList.todos" v-bind:key="todo.id"
+             v-on:keyup.delete.self="deleteSelectedTodo(todo)">
+          <div class="todo-list__todo-information">
+            <button class="todo-list__change-todo-status"
+              v-on:click="changeTodoStatus(todo)">
+              <img src="../../assets/images/buttons_icons/todo_unfinished.svg" alt="Todo unfinished"
+                   v-show="todo.status=== 'unfinished'">
+              <img src="../../assets/images/buttons_icons/todo_finished.svg" alt="Todo finished"
+                   v-show="todo.status=== 'finished'">
+            </button>
+            <p class="todo-list__todo-description"
+                  v-if="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
+                  v-on:dblclick="startEditingSelectedTodo(todo)">
+            {{ todo.name }}
+          </p>
+            <input type="text" v-model="todo.name" ref="editInput" class="todo-list__edit-input"
+                   maxlength="40" v-show="isEditingSelectedTodo && selectedTodo === todo"
+                   v-on:focus="selectEditInputText" v-on:keyup.enter="endEditingSelectedTodo"
+                   v-on:keyup.esc="endEditingSelectedTodo">
+          </div>
+          <div class="todo-list__todo-actions">
+            <button class="todo-list__start-editing-todo"
+              v-show="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
+              v-on:click="startEditingSelectedTodo(todo)">
+              <img src="../../assets/images/buttons_icons/start_editing_todo.svg"
+                   alt="Start todo editing">
+            </button>
+            <button class="todo-list__finish-editing-todo"
+                    v-show="isEditingSelectedTodo && selectedTodo === todo"
+                    v-on:click="endEditingSelectedTodo">
+              <img src="../../assets/images/buttons_icons/finish_editing_todo.svg"
+                   alt="Finish todo editing">
+            </button>
+            <button class="todo-list__delete-todo" v-on:click="deleteSelectedTodo(todo)">
+              <img src="../../assets/images/buttons_icons/delete_todo.svg" alt="Delete todo">
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
@@ -60,6 +80,8 @@ export default class TodoView extends Vue {
   private newTodoName = "";
   private selectedTodo: TodoInterface | null = null;
   private isEditingSelectedTodo = false;
+  private changingStatusTodo: TodoInterface | null = null;
+  private hasEmptyInput = false;
 
   protected beforeMount() {
     this.findAuthorizedUserTodoList();
@@ -72,7 +94,9 @@ export default class TodoView extends Vue {
   }
 
   private addNewTodo() {
-    if (this.authorizedUserTodoList && this.newTodoName.length > 0) {
+    if (this.newTodoName.length === 0) {
+      this.hasEmptyInput = true;
+    } else if (this.authorizedUserTodoList && this.newTodoName.length > 0) {
       let newTodoId = `${this.authorizedUserName}${this.authorizedUserTodoList.todos.length + 1}`;
       if (this.authorizedUserTodoList.todos.find(todos => todos.id === newTodoId)) {
         newTodoId += 1;
@@ -116,12 +140,16 @@ export default class TodoView extends Vue {
     this.isEditingSelectedTodo = false;
   }
 
+  private clearInputError() {
+    this.hasEmptyInput = false;
+  }
+
   private changeTodoStatus(todo: TodoInterface) {
-    this.selectedTodo = todo;
-    if (this.selectedTodo.status === "unfinished") {
-      this.selectedTodo.status = "finished";
+    this.changingStatusTodo = todo;
+    if (this.changingStatusTodo.status === "unfinished") {
+      this.changingStatusTodo.status = "finished";
     } else {
-      this.selectedTodo.status = "unfinished";
+      this.changingStatusTodo.status = "unfinished";
     }
   }
 }
