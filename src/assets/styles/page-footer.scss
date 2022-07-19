@@ -1,0 +1,41 @@
+@import 'utils/variables';
+
+.page-footer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 19.6vw 30px 19.8vw;
+  background-color: $main-theme-color;
+
+  li {
+    display: inline-block;
+    margin-left: 20px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  a {
+    color: $alternate-theme-color;
+    text-decoration: none;
+  }
+
+  &__logo {
+    width: 56px;
+    height: 35px;
+  }
+
+  &__main-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $alternate-theme-color;
+    padding-bottom: 30px;
+  }
+
+  &__company-information {
+    padding-top: 30.5px;
+    color: $alternate-theme-color;
+  }
+}

@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .todo-list {
   z-index: 1;
   display: flex;
@@ -8,10 +10,14 @@
   width: 62vw;
   height: 61vh;
   text-align: left;
-  background-color: #fff;
+  background-color: $alternate-theme-color;
 
   &:focus {
     background-color: #42b983;
+  }
+
+  button {
+    border-radius: 8px;
   }
 
   &__main-title {
@@ -33,27 +39,14 @@
     &-input {
       height: 40px;
       font-size: 20px;
-      margin-right: 8px;
+      margin-right: 16px;
       padding: 8px;
       border-radius: 8px;
       min-width: 300px;
       width: 95%;
 
       &_error {
-        border-color: #d60000;
-      }
-    }
-
-    &-error-information {
-      position: absolute;
-      bottom: -20px;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      color: #d60000;
-
-      span {
-        margin-left: 10px;
+        border-color: $error-color;
       }
     }
 
@@ -64,12 +57,18 @@
     }
   }
 
+  &__error-information {
+    position: absolute;
+    bottom: -24px;
+  }
+
   &__todos {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 64px;
+    padding: 8px 0;
     width: 100%;
     border-radius: 8px;
     box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1);
@@ -108,6 +107,10 @@
   &__todo-description {
     font-size: 20px;
     line-height: 1.5;
+
+    &_finished {
+      text-decoration: line-through;
+    }
   }
 
   &__edit-input {
