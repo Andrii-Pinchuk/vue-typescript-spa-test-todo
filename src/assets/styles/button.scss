@@ -1,12 +1,14 @@
+@import 'utils/variables';
+
 .button {
-  color: #fff;
-  background-color: #0076c0;
+  color: $alternate-theme-color;
+  background-color: $buttons-main-color;
   padding: 8px 28px;
   font-size: 16px;
 
   &:hover {
-    color: #0076c0;
-    background-color: #fff;
-    border: 1px solid #0076c0;
+    color: $buttons-main-color;
+    background-color: $alternate-theme-color;
+    border: 1px solid $buttons-main-color;
   }
 }

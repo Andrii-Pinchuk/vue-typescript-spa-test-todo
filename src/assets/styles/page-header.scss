@@ -1,12 +1,14 @@
+@import 'utils/variables';
+
 .page-header {
   &__top-line {
     height: 53px;
-    background-color: #333;
+    background-color: $main-theme-color;
   }
 
   &__logo-block {
     height: 96px;
-    background: linear-gradient(180deg, #00afed 0%, #00569a 100%);
+    background: $linear-gradient-color;
     padding: 15px 0;
   }
 

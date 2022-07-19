@@ -1,5 +1,7 @@
+@import 'utils/variables';
+
 .login-form {
-  background-color: #fff;
+  background-color: $alternate-theme-color;
   box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1);
 
   label {
@@ -51,12 +53,12 @@
     margin-top: 20px;
     font-size: 20px;
     text-transform: capitalize;
-    color: #0076c0;
-    background-color: #fff;
+    color: $buttons-main-color;
+    background-color: $alternate-theme-color;
 
     &:hover {
       border: initial;
-      color: #333;
+      color: $main-theme-color;
     }
   }
 
@@ -65,7 +67,7 @@
     padding: 17px 0;
     font-size: 25px;
     height: 63px;
-    color: #333;
+    color: $main-theme-color;
     background-color: #f6f6f6;
   }
 }

@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .login-page {
   position: relative;
 
@@ -19,12 +21,16 @@
     font-size: 55px;
     font-weight: 400;
     line-height: 1.57;
-    color: #fff;
+    color: $alternate-theme-color;
   }
 
   &__login-form-container {
-    position: absolute;
-    top: 424px;
-    right: 18.5vw;
+    bottom: 282px;
+    position: relative;
+    width: fit-content;
+  }
+
+  &__product-description {
+    display: flex;
   }
 }

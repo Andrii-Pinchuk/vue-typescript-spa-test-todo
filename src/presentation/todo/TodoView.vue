@@ -32,6 +32,7 @@
                    v-show="todo.status=== 'finished'">
             </button>
             <p class="todo-list__todo-description"
+               :class="{'todo-list__todo-description_finished': todo.status === 'finished'}"
                   v-if="selectedTodo === null || selectedTodo !== todo || !isEditingSelectedTodo"
                   v-on:dblclick="startEditingSelectedTodo(todo)">
             {{ todo.name }}

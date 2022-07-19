@@ -12,72 +12,75 @@
         <h1 class="login-page__main-title">Welcome to Business Analytics Online</h1>
       </section>
       <section class="product-description login-page__product-description">
-        <p class="product-description__main-description">
+        <div>
+          <p class="product-description__main-description">
           <span class="product-description__main-description_bold-text">Business Analytics</span>
           — a new, convenient tool for managing and forecasting your business performance, which
           will help analyze your own finances and cash flows, visualize your reporting, business
           processes, KPI's</p>
-        <ul class="article-list">
-          <li>
-            <article>
-            <h2>Interactive Reporting</h2>
-            <p>In just a few clicks, you can connect your data from 1C,CRM (Bitrix24, AmoCRM,
-              ZohoCRM), E&#8209;commerce (PROM.UA, Rozetka, ebay), Logistic (Nova Poshta),
-              Google Analytics and many more systems that reflect different aspects of
-              business activities.</p>
-            </article>
-          </li>
-          <li>
-            <article>
-            <h2>Automated data updates</h2>
-            <p>The application automatically updates and structures the data in just 60 seconds,
-              saving you time and money.</p>
-            </article>
-          </li>
-          <li>
-            <article>
-            <h2>Data Security</h2>
-            <p>The Bank guarantees the safety of your personal data, ensuring their
-              integrity and confidentiality.</p>
-            </article>
-          </li>
-        </ul>
-      </section>
-      <section class="login-page__login-form-container">
-        <form class="login-form" v-on:submit="validateCredential($event)">
-          <div class="login-form__login-information">
-            <div class="login-form__login-input-container">
-              <label for="login">Name</label>
-              <input type="text" id="login" v-model="login">
-              <div class="error-information login-form__error-information"
-                   v-show="isLoginEmpty && !isWrongUserCredentials">
-                <img src="../../assets/images/errors/input_error.svg" alt="Input error">
-                <span>Cannot be empty</span>
+          <ul class="article-list">
+            <li>
+              <article>
+                <h2>Interactive Reporting</h2>
+                <p>In just a few clicks, you can connect your data from 1C,CRM (Bitrix24, AmoCRM,
+                  ZohoCRM), E&#8209;commerce (PROM.UA, Rozetka, ebay), Logistic (Nova Poshta),
+                  Google Analytics and many more systems that reflect different aspects of
+                  business activities.</p>
+              </article>
+            </li>
+            <li>
+              <article>
+                <h2>Automated data updates</h2>
+                <p>The application automatically updates and structures the data in just 60 seconds,
+                  saving you time and money.</p>
+              </article>
+            </li>
+            <li>
+              <article>
+                <h2>Data Security</h2>
+                <p>The Bank guarantees the safety of your personal data, ensuring their
+                  integrity and confidentiality.</p>
+              </article>
+            </li>
+          </ul>
+        </div>
+        <div class="login-page__login-form-container">
+          <form class="login-form" v-on:submit="validateCredential($event)">
+            <div class="login-form__login-information">
+              <div class="login-form__login-input-container">
+                <label for="login">Name</label>
+                <input type="text" id="login" v-model="login" v-on:keydown="clearLoginInputErrors">
+                <div class="error-information login-form__error-information"
+                     v-show="isLoginEmpty && !isWrongUserCredentials">
+                  <img src="../../assets/images/errors/input_error.svg" alt="Input error">
+                  <span>Cannot be empty</span>
+                </div>
+                <div class="error-information login-form__error-information"
+                     v-show="isWrongUserCredentials && !isLoginEmpty">
+                  <img src="../../assets/images/errors/input_error.svg" alt="Input error">
+                  <span>Enter valid user credentials</span>
+                </div>
               </div>
-              <div class="error-information login-form__error-information"
-                   v-show="isWrongUserCredentials && !isLoginEmpty">
-                <img src="../../assets/images/errors/input_error.svg" alt="Input error">
-                <span>Enter valid user credentials</span>
+              <div class="login-form__password-input-container">
+                <label for="password">Password</label>
+                <input type="password" id="password" v-model="password"
+                       v-on:keydown="clearPasswordInputErrors">
+                <div class="error-information login-form__error-information"
+                     v-show="isPasswordEmpty && !isWrongUserCredentials">
+                  <img src="../../assets/images/errors/input_error.svg" alt="Input error">
+                  <span>Cannot be empty</span>
+                </div>
               </div>
+              <button type="submit" class="button login-form__submit-button">
+                Login
+              </button>
+              <button type="button" class="button login-form__reset-password-button">
+                Forgot password
+              </button>
             </div>
-            <div class="login-form__password-input-container">
-              <label for="password">Password</label>
-              <input type="password" id="password" v-model="password">
-              <div class="error-information login-form__error-information"
-                   v-show="isPasswordEmpty && !isWrongUserCredentials">
-                <img src="../../assets/images/errors/input_error.svg" alt="Input error">
-                <span>Cannot be empty</span>
-              </div>
-            </div>
-            <button type="submit" class="button login-form__submit-button">
-              Login
-            </button>
-            <button type="button" class="button login-form__reset-password-button">
-              Forgot password
-            </button>
-          </div>
-          <button type="button" class="button login-form__register-button">Register now</button>
-        </form>
+            <button type="button" class="button login-form__register-button">Register now</button>
+          </form>
+        </div>
       </section>
     </main>
     <footer class="page-footer">
@@ -115,7 +118,8 @@ export default class LoginView extends Vue {
   private validateCredential(event: Event) {
     event.preventDefault();
 
-    this.clearInputErrors();
+    this.clearLoginInputErrors();
+    this.clearPasswordInputErrors();
 
     if (this.login.length === 0) {
       this.isLoginEmpty = true;
@@ -137,10 +141,13 @@ export default class LoginView extends Vue {
     }
   }
 
-  private clearInputErrors() {
+  private clearLoginInputErrors() {
     this.isLoginEmpty = false;
-    this.isPasswordEmpty = false;
     this.isWrongUserCredentials = false;
+  }
+
+  private clearPasswordInputErrors() {
+    this.isPasswordEmpty = false;
   }
 }
 </script>

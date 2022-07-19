@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .todo-list {
   z-index: 1;
   display: flex;
@@ -8,7 +10,7 @@
   width: 62vw;
   height: 61vh;
   text-align: left;
-  background-color: #fff;
+  background-color: $alternate-theme-color;
 
   &:focus {
     background-color: #42b983;
@@ -44,7 +46,7 @@
       width: 95%;
 
       &_error {
-        border-color: #d60000;
+        border-color: $error-color;
       }
     }
 
@@ -105,6 +107,10 @@
   &__todo-description {
     font-size: 20px;
     line-height: 1.5;
+
+    &_finished {
+      text-decoration: line-through;
+    }
   }
 
   &__edit-input {
