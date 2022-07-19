@@ -14,13 +14,13 @@
         <button v-on:click="addNewTodo" class="todo-list__add-todo-btn">
           <img src="../../assets/images/buttons_icons/add_new_todo.svg" alt="Add new todo">
         </button>
-        <div class="todo-list__add-todo-error-information" v-show="hasEmptyInput">
+        <div class="error-information todo-list__error-information" v-show="hasEmptyInput">
           <img src="../../assets/images/errors/input_error.svg" alt="Input error">
-          <span>Enter todo name</span>
+          <span>Cannot be empty</span>
         </div>
       </div>
-      <div class="todo-list__todos">
-        <div tabindex="0" class="todo-list__todo"
+      <ul class="todo-list__todos">
+        <li tabindex="0" class="todo-list__todo"
              v-for="todo in authorizedUserTodoList.todos" v-bind:key="todo.id"
              v-on:keyup.delete.self="deleteSelectedTodo(todo)">
           <div class="todo-list__todo-information">
@@ -58,10 +58,9 @@
               <img src="../../assets/images/buttons_icons/delete_todo.svg" alt="Delete todo">
             </button>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
     </section>
-
   </div>
 </template>
 
@@ -150,8 +149,10 @@ export default class TodoView extends Vue {
   }
 
   private endEditingSelectedTodo() {
-    this.selectedTodo = null;
-    this.isEditingSelectedTodo = false;
+    if (this.selectedTodo && this.selectedTodo.name.length > 0) {
+      this.selectedTodo = null;
+      this.isEditingSelectedTodo = false;
+    }
   }
 
   private clearInputError() {
